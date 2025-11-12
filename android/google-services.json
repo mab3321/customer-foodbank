@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "296922475241",
+    "project_id": "food-bank-daba5",
+    "storage_bucket": "food-bank-daba5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296922475241:android:95ec64bc3a073e8b7f9e78",
+        "android_client_info": {
+          "package_name": "com.inilabs.foodbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296922475241-dovbbl3ummcdtpvurlljb7i27mot2grj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inilabs.foodbank",
+            "certificate_hash": "191e086cfb79a2742c42491778931309ab4acafd"
+          }
+        },
+        {
+          "client_id": "296922475241-7ht43npqaqg824in7a972j1uvuva37bt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl0gFwEYfRopDfcZV3AsrxUAfOHIyuECY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296922475241-7ht43npqaqg824in7a972j1uvuva37bt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
