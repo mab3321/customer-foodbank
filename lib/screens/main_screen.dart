@@ -28,7 +28,7 @@ class _HomePageState extends State<MainScreen> {
       bottomNavigationBar: PandaBar(
         backgroundColor: Colors.white,
         buttonColor: Colors.blueGrey,
-        buttonSelectedColor: ThemeColors.baseThemeColor,
+        buttonSelectedColor: const Color.fromARGB(255, 238, 224, 29),
         fabIcon: InkWell(
             onTap: () {
               Get.to(ViewRestaurantPageSearch(type: 0));

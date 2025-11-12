@@ -12,5 +12,5 @@ class ThemeColors {
   static const Color whiteTextColor = Colors.white;
   static const Color greyTextColor = Color(0xFF595959);
   static const Color customTextColor = Color(0xFF045207);
-  static const Color baseThemeColor = Color(0xffEE1D48);
+  static const Color baseThemeColor = Color.fromARGB(255, 211, 176, 23);
 }
