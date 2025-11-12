@@ -1,0 +1,16 @@
+flutter_native_splash:
+  # Background color (hex or color name)
+  color: "#F6A623"
+
+  # Optional: Splash image
+  image: assets/images/icon.png
+
+  # Platform-specific configurations
+  android: true
+  ios: true
+  web: false
+
+  # Force color background instead of image
+  android_12:
+    image: assets/images/icon.png
+    color: "#F6A623"

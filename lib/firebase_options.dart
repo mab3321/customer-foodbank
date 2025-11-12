@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDabqHsfe0B3ObWyAuy4gPmi8hvnb-JZHA',
-    appId: '1:874879259832:android:4c919fbdcb16c00e33904d',
-    messagingSenderId: '874879259832',
-    projectId: 'new-project-3e70e',
-    storageBucket: 'new-project-3e70e.appspot.com',
+    apiKey: 'AIzaSyAiQtWpZssA1_jxY9vozWJEmTA4d0dtZs4',
+    appId: '1:150641030037:android:0786e3f3f81deec0457c9c',
+    messagingSenderId: '150641030037',
+    projectId: 'mealsgrab-29715',
+    storageBucket: 'mealsgrab-29715.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBcU7e-VCG27jR1wChzvXzyhLMCJZXh80M',
-    appId: '1:874879259832:ios:8c39f02f995aed8c33904d',
-    messagingSenderId: '874879259832',
-    projectId: 'new-project-3e70e',
-    storageBucket: 'new-project-3e70e.appspot.com',
+    apiKey: 'AIzaSyDfzFaCVlVkrKFYe-gE5FnvY_sarWY3n8o',
+    appId: '1:150641030037:ios:624e1b075b6e373e457c9c',
+    messagingSenderId: '150641030037',
+    projectId: 'mealsgrab-29715',
+    storageBucket: 'mealsgrab-29715.firebasestorage.app',
     iosBundleId: 'com.example.foodEx',
   );
+
 }

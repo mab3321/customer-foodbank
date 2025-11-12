@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "150641030037",
+    "project_id": "mealsgrab-29715",
+    "storage_bucket": "mealsgrab-29715.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150641030037:android:0786e3f3f81deec0457c9c",
+        "android_client_info": {
+          "package_name": "com.inilabs.foodbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150641030037-67iaddgnhjnje8sq2iclf548747k72av.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inilabs.foodbank",
+            "certificate_hash": "a10ca4312e91a15a10f9b417bb5d2a089c878cbc"
+          }
+        },
+        {
+          "client_id": "150641030037-7rs31smlqh2r30mh4v86grq86v8g1lju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiQtWpZssA1_jxY9vozWJEmTA4d0dtZs4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150641030037-7rs31smlqh2r30mh4v86grq86v8g1lju.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "150641030037-kmb5escerki9kvo57he8l70lusb6cfuu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.foodEx"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

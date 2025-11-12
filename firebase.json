@@ -1,1 +1,22 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"new-project-3e70e","appId":"1:874879259832:android:4c919fbdcb16c00e33904d","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"new-project-3e70e","configurations":{"android":"1:874879259832:android:4c919fbdcb16c00e33904d","ios":"1:874879259832:ios:8c39f02f995aed8c33904d"}}}}}}
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "mealsgrab-29715",
+                    "appId": "1:150641030037:android:0786e3f3f81deec0457c9c",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "mealsgrab-29715",
+                    "configurations": {
+                        "android": "1:150641030037:android:0786e3f3f81deec0457c9c",
+                        "ios": "1:150641030037:ios:624e1b075b6e373e457c9c"
+                    }
+                }
+            }
+        }
+    }
+}

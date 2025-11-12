@@ -1,5 +1,5 @@
 class APIList {
-  static String? server = "https://foodbank.dev.platco.ai//api/v1/";
+  static String? server = "https://foodbank.dev.platco.ai/api/v1/";
   static String? apiUrl = "foodbank.dev.platco.ai";
   static String? apiEndPoint = "/api/v1/";
   static String? setting = "settings";

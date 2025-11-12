@@ -57,8 +57,6 @@ dependencies:
   google_api_headers: any
   sqflite: 2.3.3+1
 
-  
-
   flutter_paystack:
     git:
       url: https://github.com/mdkhaledhassan/flutter_paystack_1.8.git
@@ -73,7 +71,6 @@ dependency_overrides:
   http: ^1.2.1
   package_info_plus: ^8.1.2
   google_api_headers: any
-  
 
 dev_dependencies:
   flutter_test:
@@ -81,12 +78,10 @@ dev_dependencies:
   flutter_native_splash: ^2.2.0
   flutter_launcher_icons: ^0.14.1
 
-
-
-flutter_icons:
-  image_path: "assets/images/icon.png"
+flutter_launcher_icons:
   android: "launcher_icon"
-  iso: true
+  ios: true
+  image_path: "assets/images/icon.png"
 
 flutter:
   uses-material-design: true
@@ -94,13 +89,3 @@ flutter:
   assets:
     - assets/
     - assets/images/
-
-flutter_native_splash:
-  color: "#EE1D48"
-  image:
-    assets/images/icon.png
-
-  android:
-    true
-    #ios: false
-    #web: false

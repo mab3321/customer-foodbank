@@ -246,29 +246,39 @@ class AuthController extends GetxController {
 
   loginFB() async {
     try {
+      print("Starting Facebook login...");
       final LoginResult result = await FacebookAuth.instance.login(
         permissions: ['public_profile', 'email'],
       ); // by default we request the email and the public profile
 
+      print("Facebook login result: ${result.status}");
+      
       if (result.status == LoginStatus.success) {
         // you are logged
         final userData = await FacebookAuth.i.getUserData();
+        print("Facebook user data: $userData");
         socialLogin(
           userData['name'].toString(),
           userData['email'].toString(),
           'facebook',
           userData['id'],
         );
+      } else if (result.status == LoginStatus.cancelled) {
+        Get.rawSnackbar(message: 'Facebook login cancelled');
+      } else if (result.status == LoginStatus.failed) {
+        Get.rawSnackbar(message: 'Facebook login failed: ${result.message}');
       }
     } catch (e) {
-      print(e);
+      print("Facebook login error: $e");
+      Get.rawSnackbar(message: 'Facebook login error: $e');
     }
   }
 
   loginGoogle() async {
     try {
+      print("Starting Google login...");
       _userObj = (await _googleSignIn.signIn())!;
-      print(_userObj);
+      print("Google user data: $_userObj");
       socialLogin(
         _userObj.displayName?.toString(),
         _userObj.email.toString(),
@@ -276,11 +286,15 @@ class AuthController extends GetxController {
         _userObj.id.toString(),
       );
     } catch (e) {
-      print(e);
+      print("Google login error: $e");
+      Get.rawSnackbar(message: 'Google login error: $e');
     }
   }
 
   socialLogin(String? name, String? email, String? provider, providerID) async {
+    print("Sending social login request:");
+    print("Name: $name, Email: $email, Provider: $provider, ID: $providerID");
+    
     Map body = {
       'name': name,
       'email': email,
@@ -292,6 +306,11 @@ class AuthController extends GetxController {
     server.postRequest(endPoint: APIList.socialLogin, body: jsonBody).then((
       response,
     ) {
+      print("Social login response: ${response?.statusCode}");
+      if (response != null) {
+        print("Response body: ${response.body}");
+      }
+      
       if (response != null && response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         var regData = RegApi.fromJson(jsonResponse);
@@ -332,8 +351,11 @@ class AuthController extends GetxController {
         Get.put(GlobalController()).initController();
         Get.off(() => MainScreen());
       } else {
-        Get.rawSnackbar(message: 'Please enter valid input');
+        Get.rawSnackbar(message: 'Social login failed. Please try again.');
       }
+    }).catchError((error) {
+      print("Social login API error: $error");
+      Get.rawSnackbar(message: 'Network error during social login');
     });
   }
 }
