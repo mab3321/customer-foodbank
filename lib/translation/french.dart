@@ -66,7 +66,6 @@ Map<String, String> french = {
   'CHOOSE_ORDER_TYPE': 'Choisissez le type de commande',
   'REVIEWS': 'avis',
   'SUB_TOTAL': 'Sous-total',
-  'DELIVERY_FEE': 'Frais de livraison',
   'DISCOUNT': 'Remise',
   'TOTAL': 'Total',
   'CHECKOUT_PAGE': 'Page de paiement',
@@ -156,7 +155,7 @@ Map<String, String> french = {
   'ORDER_REJECT': 'Commande rejetée',
   'ORDER_ACCEPT': 'Commande acceptée',
   'ORDER_PROCESS': 'Processus de commande ',
-  'ON_THE_WAY': 'En chemin',
+  'ON_THE_WAY': 'Prêt pour le retrait',
   'ORDER_COMPLETED': 'Commande terminée',
   'PLEASE_ENTER_VALID_EMAIL_OR_PHONE_NUMBER':
       'Veuillez entrer un e-mail ou un numéro de téléphone valide',
@@ -219,7 +218,7 @@ Map<String, String> french = {
   'RESTAURANT_NAME': 'Nom du restaurant',
   'THIS_IS_THE_BEST_RESTAURANT_IN_MY_TOWN':
       'C\'est le meilleur restaurant de ma ville!',
-  'DHAKA': 'Dhaka',
+  'DHAKA': 'Lahore',
   '10REVIEWS': '(10 avis)',
   'MOSTLY_VISITED_RESTAURANTS': 'Restaurants les plus visités',
   'TOP_CATEGORIES': 'Meilleures catégories',
@@ -229,7 +228,7 @@ Map<String, String> french = {
   'CURRENTLY_THIS_RESTAURANT_IS_NOT_ACCEPTING_ANY_ORDER':
       'Actuellement, ce restaurant n\'accepte aucune commande.',
   'CHECKOUT': 'Paiement',
-  'NEW_YORK': 'New York',
+  'NEW_YORK': 'Karachi',
   'NOW': 'Maintenant',
   'FAMILY_PAN': 'Family Pan',
   'SEARCH_FOODS': 'Rechercher des aliments',
@@ -238,8 +237,17 @@ Map<String, String> french = {
   'REVIEW': 'Revue',
   'ADD_REVIEW': 'Ajouter une critique',
   'SELECT_ONE': 'Sélectionnez un',
-  'CHANGE_LANGUAGE': 'Changer la langue',
-  "PLEASE_ENTER_YOUR_EMAIL": "Veuillez entrer votre email",
+  'CHANGE_LANGUAGE': 'Changer de langue',
+  'EXPECTED_READY_TIME': 'Temps de préparation estimé',
+  'YOUR_ORDER_IS_BEING_PREPARED': 'Votre commande est en préparation',
+  'ORDER_READY_FOR_PICKUP': 'Commande prête pour le retrait!',
+  'READY': 'Prêt',
+  'RUNNING_LATE': 'En retard',
+  'ESTIMATED_TIME_REMAINING': 'Temps restant estimé',
+  'PROGRESS': 'Progrès',
+  'ESTIMATED': 'Estimé',
+  'ORDER_RUNNING_LATE': 'Commande en retard',
+  "PLEASE_ENTER_YOUR_EMAIL": "Veuillez entrer votre e-mail",
   "PLEASE_ENTER_VALID_EMAIL": "Veuillez entrer un email valide",
   "PASSWORD_IS_REQUIRED": "Le mot de passe est requis",
   "PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS":
@@ -252,5 +260,5 @@ Map<String, String> french = {
   "PLEASE_WRITE_ACCIDENT_NAME": "Veuillez écrire le nom de l'accident",
   "PLEASE_WRITE_SMONE_NOTES": "Veuillez écrire quelques notes",
   "NETWORK_ERROR": "Erreur réseau",
-  "FAILED_TO_GET_NETWORK_STATUS": "Impossible d'obtenir l'état du réseau"
+  "FAILED_TO_GET_NETWORK_STATUS": "Impossible d'obtenir l'état du réseau",
 };

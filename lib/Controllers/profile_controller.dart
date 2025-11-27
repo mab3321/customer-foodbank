@@ -39,15 +39,15 @@ class ProfileController extends GetxController {
         profileLoader = false;
         final jsonResponse = json.decode(response.body);
         var profileData = Profile.fromJson(jsonResponse);
-        name = profileData.data!.data!.name;
-        email = profileData.data!.data!.email;
-        address = profileData.data!.data!.address;
-        phone = profileData.data!.data!.phone;
-        username = profileData.data!.data!.username;
-        image = profileData.data!.data!.image;
-        credit = profileData.data!.data!.balance;
-        totalReservation = profileData.data!.data!.totalReservations;
-        totalOrders = profileData.data!.data!.totalOrders;
+        name = profileData.data?.data?.name;
+        email = profileData.data?.data?.email;
+        address = profileData.data?.data?.address;
+        phone = profileData.data?.data?.phone;
+        username = profileData.data?.data?.username;
+        image = profileData.data?.data?.image;
+        credit = profileData.data?.data?.balance;
+        totalReservation = profileData.data?.data?.totalReservations;
+        totalOrders = profileData.data?.data?.totalOrders;
         Future.delayed(Duration(milliseconds: 10), () {
           update();
         });
@@ -57,8 +57,11 @@ class ProfileController extends GetxController {
     });
   }
 
-  updateUserProfile(
-      {BuildContext? context, required String filepath, type}) async {
+  updateUserProfile({
+    BuildContext? context,
+    required String filepath,
+    type,
+  }) async {
     loader = true;
     Future.delayed(Duration(milliseconds: 10), () {
       update();
@@ -72,29 +75,30 @@ class ProfileController extends GetxController {
 
     server
         .multipartRequest(
-            endPoint: APIList.profileUpdate,
-            body: body,
-            filepath: filepath,
-            type: type)
+          endPoint: APIList.profileUpdate,
+          body: body,
+          filepath: filepath,
+          type: type,
+        )
         .then((response) {
-      if (response != null && response.statusCode == 200) {
-        emailController.clear();
-        nameController.clear();
-        addressController.clear();
-        phoneController.clear();
-        loader = false;
-        Future.delayed(Duration(milliseconds: 10), () {
-          update();
+          if (response != null && response.statusCode == 200) {
+            emailController.clear();
+            nameController.clear();
+            addressController.clear();
+            phoneController.clear();
+            loader = false;
+            Future.delayed(Duration(milliseconds: 10), () {
+              update();
+            });
+            Get.back();
+          } else {
+            loader = false;
+            Future.delayed(Duration(milliseconds: 10), () {
+              update();
+            });
+            Get.rawSnackbar(message: 'Please enter valid input');
+          }
         });
-        Get.back();
-      } else {
-        loader = false;
-        Future.delayed(Duration(milliseconds: 10), () {
-          update();
-        });
-        Get.rawSnackbar(message: 'Please enter valid input');
-      }
-    });
   }
 
   updateUserPassword({BuildContext? context}) async {
@@ -108,9 +112,9 @@ class ProfileController extends GetxController {
       'password_confirmation': passwordConfirmController.text,
     };
     String jsonBody = json.encode(body);
-    server
-        .putRequest(endPoint: APIList.changePassword, body: jsonBody)
-        .then((response) {
+    server.putRequest(endPoint: APIList.changePassword, body: jsonBody).then((
+      response,
+    ) {
       final jsonResponse = json.decode(response.body);
       if (response != null && response.statusCode == 200) {
         Get.back();
@@ -125,14 +129,17 @@ class ProfileController extends GetxController {
       } else if (response != null && response.statusCode == 422) {
         if (jsonResponse['message']['password_current'] != null) {
           Get.rawSnackbar(
-              message: jsonResponse['message']['password_current'].toString());
+            message: jsonResponse['message']['password_current'].toString(),
+          );
         } else if (jsonResponse['message']['password'] != null) {
           Get.rawSnackbar(
-              message: jsonResponse['message']['password'].toString());
+            message: jsonResponse['message']['password'].toString(),
+          );
         } else if (jsonResponse['message']['password_confirmation'] != null) {
           Get.rawSnackbar(
-              message:
-                  jsonResponse['message']['password_confirmation'].toString());
+            message: jsonResponse['message']['password_confirmation']
+                .toString(),
+          );
         }
         loader = false;
         Future.delayed(Duration(milliseconds: 10), () {

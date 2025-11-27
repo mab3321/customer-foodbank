@@ -88,3 +88,6 @@ key/
 .DS_Store
 .AppleDouble
 .LSOverride
+
+web/
+windows/

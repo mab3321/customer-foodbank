@@ -67,7 +67,6 @@ Map<String, String> german = {
   'CHOOSE_ORDER_TYPE': 'Bestellart auswählen',
   'REVIEWS': 'Bewertungen',
   'SUB_TOTAL': 'Zwischensumme',
-  'DELIVERY_FEE': 'Liefergebühr',
   'DISCOUNT': 'Rabatt',
   'TOTAL': 'Gesamt',
   'CHECKOUT_PAGE': 'Kassenseite',
@@ -154,7 +153,7 @@ Map<String, String> german = {
   'ORDER_REJECT': 'Bestellung abgelehnt',
   'ORDER_ACCEPT': 'Bestellung angenommen',
   'ORDER_PROCESS': 'Bestellprozess',
-  'ON_THE_WAY': 'Unterwegs',
+  'ON_THE_WAY': 'Bereit zur Abholung',
   'ORDER_COMPLETED': 'Bestellung abgeschlossen',
   'PLEASE_ENTER_VALID_EMAIL_OR_PHONE_NUMBER':
       'Bitte geben Sie eine gültige E-Mail-Adresse oder Telefonnummer ein',
@@ -217,7 +216,7 @@ Map<String, String> german = {
   'RESTAURANT_NAME': 'Restaurantname',
   'THIS_IS_THE_BEST_RESTAURANT_IN_MY_TOWN':
       'Das ist das beste Restaurant in meiner Stadt!',
-  'DHAKA': 'Dhaka',
+  'DHAKA': 'Lahore',
   '10REVIEWS': '(10 Bewertungen)',
   'MOSTLY_VISITED_RESTAURANTS': 'Meistbesuchte Restaurants',
   'TOP_CATEGORIES': 'Top-Kategorien',
@@ -227,7 +226,7 @@ Map<String, String> german = {
   'CURRENTLY_THIS_RESTAURANT_IS_NOT_ACCEPTING_ANY_ORDER':
       'Derzeit nimmt dieses Restaurant keine Bestellungen an.',
   'CHECKOUT': 'Zur Kasse',
-  'NEW_YORK': 'New York',
+  'NEW_YORK': 'Karachi',
   'NOW': 'Jetzt',
   'FAMILY_PAN': 'Familienpfanne',
   'SEARCH_FOODS': 'Essen suchen',
@@ -237,6 +236,15 @@ Map<String, String> german = {
   'ADD_REVIEW': 'Bewertung hinzufügen',
   'SELECT_ONE': 'Eins auswählen',
   'CHANGE_LANGUAGE': 'Sprache ändern',
+  'EXPECTED_READY_TIME': 'Erwartete Bereitschaftszeit',
+  'YOUR_ORDER_IS_BEING_PREPARED': 'Ihre Bestellung wird zubereitet',
+  'ORDER_READY_FOR_PICKUP': 'Bestellung zur Abholung bereit!',
+  'READY': 'Bereit',
+  'RUNNING_LATE': 'Verspätet',
+  'ESTIMATED_TIME_REMAINING': 'Geschätzte Restzeit',
+  'PROGRESS': 'Fortschritt',
+  'ESTIMATED': 'Geschätzt',
+  'ORDER_RUNNING_LATE': 'Bestellung ist verspätet',
   "PLEASE_ENTER_YOUR_EMAIL": "Bitte geben Sie Ihre E-Mail-Adresse ein",
   "PLEASE_ENTER_VALID_EMAIL": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
   "PASSWORD_IS_REQUIRED": "Passwort ist erforderlich",
@@ -249,5 +257,6 @@ Map<String, String> german = {
   "PLEASE_WRITE_ACCIDENT_NAME": "Bitte geben Sie den Namen des Unfalls ein",
   "PLEASE_WRITE_SMONE_NOTES": "Bitte geben Sie einige Notizen ein",
   "NETWORK_ERROR": "Netzwerkfehler",
-  "FAILED_TO_GET_NETWORK_STATUS": "Netzwerkstatus konnte nicht abgerufen werden"
+  "FAILED_TO_GET_NETWORK_STATUS":
+      "Netzwerkstatus konnte nicht abgerufen werden",
 };

@@ -65,7 +65,6 @@ Map<String, String> bangla = {
   'CHOOSE_ORDER_TYPE': 'অর্ডার প্রকার নির্বাচন করুন',
   'REVIEWS': 'রিভিউ',
   'SUB_TOTAL': 'উপ-মোট',
-  'DELIVERY_FEE': 'ডেলিভারি ফি',
   'DISCOUNT': 'ছাড়',
   'TOTAL': 'মোট',
   'CHECKOUT_PAGE': 'চেকআউট পৃষ্ঠা',
@@ -152,7 +151,7 @@ Map<String, String> bangla = {
   'ORDER_REJECT': 'অর্ডার প্রত্যাখ্যান',
   'ORDER_ACCEPT': 'অর্ডার গ্রহণ',
   'ORDER_PROCESS': 'অর্ডার প্রক্রিয়া',
-  'ON_THE_WAY': 'পথে',
+  'ON_THE_WAY': 'পিকআপের জন্য প্রস্তুত',
   'ORDER_COMPLETED': 'অর্ডার সম্পন্ন হয়েছে',
   'PLEASE_ENTER_VALID_EMAIL_OR_PHONE_NUMBER':
       'অনুগ্রহ করে বৈধ ইমেল বা ফোন নম্বর লিখুন',
@@ -246,5 +245,5 @@ Map<String, String> bangla = {
   "PLEASE_WRITE_ACCIDENT_NAME": "দয়া করে দুর্ঘটনার নাম লিখুন",
   "PLEASE_WRITE_SMONE_NOTES": "দয়া করে কিছু নোট লিখুন",
   "NETWORK_ERROR": "নেটওয়ার্ক ত্রুটি",
-  "FAILED_TO_GET_NETWORK_STATUS": "নেটওয়ার্ক স্থিতি পেতে ব্যর্থ হয়েছে"
+  "FAILED_TO_GET_NETWORK_STATUS": "নেটওয়ার্ক স্থিতি পেতে ব্যর্থ হয়েছে",
 };

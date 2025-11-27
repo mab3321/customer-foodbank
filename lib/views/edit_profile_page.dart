@@ -49,325 +49,314 @@ class _EditProfilePageState extends State<EditProfilePage> {
           title: Text('EDIT_PROFILE'.tr),
         ),
         body: SingleChildScrollView(
-            child: Stack(children: [
-          Column(
+          child: Stack(
             children: [
-              SizedBox(
-                height: 15,
-              ),
-              CircleAvatar(
-                radius: 80,
-                backgroundColor: Color(0xff476cfb),
-                child: ClipOval(
-                  child: new SizedBox(
-                    width: 150.0,
-                    height: 150.0,
-                    child: (_image != null)
-                        ? Image.file(
-                            _image!,
-                            fit: BoxFit.fill,
-                          )
-                        : Image.network(
-                            profile.image!,
-                            fit: BoxFit.fill,
-                          ),
-                  ),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  //image picker
-                  getImage();
-                },
-                icon: Icon(
-                  Icons.camera,
-                  size: 30,
-                  color: ThemeColors.baseThemeColor,
-                ),
-              ),
-              Container(
-                //margin: EdgeInsets.symmetric(vertical: 10),
-                height: mainHeight / 1.7,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ThemeColors.baseThemeColor.withOpacity(.01),
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('NAME*'.tr),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: profile.nameController
-                            ..text = profile.name!
-                            ..selection = TextSelection.collapsed(
-                                offset: profile.nameController.text.length),
-                          obscureText: false,
-                          textAlign: TextAlign.start,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            fontSize: 18,
-                            height: 0.8,
-                          ),
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(fontSize: 15),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                          ),
-                          validator: (value) {
-                            profile.name = value!.trim();
-
-                            return;
-                          },
-                          onChanged: (value) {
-                            profile.name = value;
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('EMAIL*'),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: profile.emailController
-                            ..text = profile.email!
-                            ..selection = TextSelection.collapsed(
-                                offset: profile.emailController.text.length),
-                          obscureText: false,
-                          //initialValue: widget.userdata['name'],
-                          textAlign: TextAlign.start,
-                          autofocus: false,
-
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(
-                            fontSize: 18,
-                            height: 0.8,
-                          ),
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(fontSize: 15),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            // hintText: "${profile.email}",
-                          ),
-                          validator: (value) {
-                            profile.email = value!.trim();
-                            return;
-                          },
-                          onChanged: (value) {
-                            profile.email = value;
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('PHONE_NO*'.tr),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        TextFormField(
-                          controller: profile.phoneController
-                            ..text = profile.phone!
-                            ..selection = TextSelection.collapsed(
-                                offset: profile.phoneController.text.length),
-                          obscureText: false,
-                          //initialValue: widget.userdata['name'],
-                          textAlign: TextAlign.start,
-                          keyboardType: TextInputType.phone,
-                          style: TextStyle(
-                            fontSize: 18,
-                            height: 0.8,
-                          ),
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(fontSize: 15),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade700),
-                            ),
-                          ),
-                          validator: (value) {
-                            profile.phone = value!.trim();
-                            return;
-                          },
-                          onChanged: (value) {
-                            profile.phone = value;
-                          },
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('ADDRESS*'.tr),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        profile.address == null
-                            ? TextFormField(
-                                controller: profile.addressController,
-                                obscureText: false,
-                                //initialValue: widget.userdata['name'],
-                                textAlign: TextAlign.start,
-                                keyboardType: TextInputType.text,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  height: 0.8,
-                                ),
-                                decoration: InputDecoration(
-                                  hintStyle: TextStyle(fontSize: 15),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade700),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade700),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade700),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  profile.address = value!.trim();
-                                  return;
-                                },
-                                onChanged: (value) {
-                                  profile.address = value;
-                                },
-                              )
-                            : TextFormField(
-                                controller: profile.addressController
-                                  ..text = profile.address!
-                                  ..selection = TextSelection.collapsed(
-                                      offset: profile
-                                          .addressController.text.length),
-                                obscureText: false,
-                                //initialValue: widget.userdata['name'],
-                                textAlign: TextAlign.start,
-                                keyboardType: TextInputType.text,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  height: 0.8,
-                                ),
-                                decoration: InputDecoration(
-                                  hintStyle: TextStyle(fontSize: 15),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade700),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade700),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade700),
-                                  ),
-                                ),
-                                validator: (value) {
-                                  profile.address = value!.trim();
-                                  return;
-                                },
-                                onChanged: (value) {
-                                  profile.address = value;
+              Column(
+                children: [
+                  SizedBox(height: 15),
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundColor: Color(0xff476cfb),
+                    child: ClipOval(
+                      child: new SizedBox(
+                        width: 150.0,
+                        height: 150.0,
+                        child: (_image != null)
+                            ? Image.file(_image!, fit: BoxFit.fill)
+                            : Image.network(
+                                profile.image ?? '',
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(Icons.person, size: 50);
                                 },
                               ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(120),
-                            child: SizedBox(
-                              width: 130,
-                              height: 40,
-                              child: ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: ThemeColors.baseThemeColor,
-                                ),
-                                icon: Icon(
-                                  Icons.update,
-                                  size: 26,
-                                ),
-                                label: Text(
-                                  'UPDATE'.tr,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (_image == null) {
-                                    profile.updateUserProfile(
-                                        context: context,
-                                        filepath: profile.image!,
-                                        type: false);
-                                  } else {
-                                    profile.updateUserProfile(
-                                        context: context,
-                                        filepath: _image!.path,
-                                        type: true);
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  IconButton(
+                    onPressed: () {
+                      //image picker
+                      getImage();
+                    },
+                    icon: Icon(
+                      Icons.camera,
+                      size: 30,
+                      color: ThemeColors.baseThemeColor,
+                    ),
+                  ),
+                  Container(
+                    //margin: EdgeInsets.symmetric(vertical: 10),
+                    height: mainHeight / 1.7,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ThemeColors.baseThemeColor.withOpacity(.01),
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('NAME*'.tr),
+                            SizedBox(height: 5),
+                            TextFormField(
+                              controller: profile.nameController
+                                ..text = profile.name ?? ''
+                                ..selection = TextSelection.collapsed(
+                                  offset: profile.nameController.text.length,
+                                ),
+                              obscureText: false,
+                              textAlign: TextAlign.start,
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(fontSize: 18, height: 0.8),
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(fontSize: 15),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                profile.name = value!.trim();
+
+                                return;
+                              },
+                              onChanged: (value) {
+                                profile.name = value;
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            Text('EMAIL*'),
+                            SizedBox(height: 5),
+                            TextFormField(
+                              controller: profile.emailController
+                                ..text = profile.email ?? ''
+                                ..selection = TextSelection.collapsed(
+                                  offset: profile.emailController.text.length,
+                                ),
+                              obscureText: false,
+                              //initialValue: widget.userdata['name'],
+                              textAlign: TextAlign.start,
+                              autofocus: false,
+
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(fontSize: 18, height: 0.8),
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(fontSize: 15),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                // hintText: "${profile.email}",
+                              ),
+                              validator: (value) {
+                                profile.email = value!.trim();
+                                return;
+                              },
+                              onChanged: (value) {
+                                profile.email = value;
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            Text('PHONE_NO*'.tr),
+                            SizedBox(height: 5),
+                            TextFormField(
+                              controller: profile.phoneController
+                                ..text = profile.phone ?? ''
+                                ..selection = TextSelection.collapsed(
+                                  offset: profile.phoneController.text.length,
+                                ),
+                              obscureText: false,
+                              //initialValue: widget.userdata['name'],
+                              textAlign: TextAlign.start,
+                              keyboardType: TextInputType.phone,
+                              style: TextStyle(fontSize: 18, height: 0.8),
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(fontSize: 15),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                profile.phone = value!.trim();
+                                return;
+                              },
+                              onChanged: (value) {
+                                profile.phone = value;
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            Text('ADDRESS*'.tr),
+                            SizedBox(height: 5),
+                            profile.address == null
+                                ? TextFormField(
+                                    controller: profile.addressController,
+                                    obscureText: false,
+                                    //initialValue: widget.userdata['name'],
+                                    textAlign: TextAlign.start,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(fontSize: 18, height: 0.8),
+                                    decoration: InputDecoration(
+                                      hintStyle: TextStyle(fontSize: 15),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      profile.address = value!.trim();
+                                      return;
+                                    },
+                                    onChanged: (value) {
+                                      profile.address = value;
+                                    },
+                                  )
+                                : TextFormField(
+                                    controller: profile.addressController
+                                      ..text = profile.address ?? ''
+                                      ..selection = TextSelection.collapsed(
+                                        offset: profile
+                                            .addressController
+                                            .text
+                                            .length,
+                                      ),
+                                    obscureText: false,
+                                    //initialValue: widget.userdata['name'],
+                                    textAlign: TextAlign.start,
+                                    keyboardType: TextInputType.text,
+                                    style: TextStyle(fontSize: 18, height: 0.8),
+                                    decoration: InputDecoration(
+                                      hintStyle: TextStyle(fontSize: 15),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade700,
+                                        ),
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      profile.address = value!.trim();
+                                      return;
+                                    },
+                                    onChanged: (value) {
+                                      profile.address = value;
+                                    },
+                                  ),
+                            SizedBox(height: 30),
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(120),
+                                child: SizedBox(
+                                  width: 130,
+                                  height: 40,
+                                  child: ElevatedButton.icon(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          ThemeColors.baseThemeColor,
+                                    ),
+                                    icon: Icon(Icons.update, size: 26),
+                                    label: Text(
+                                      'UPDATE'.tr,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      if (_image == null) {
+                                        profile.updateUserProfile(
+                                          context: context,
+                                          filepath: profile.image ?? '',
+                                          type: false,
+                                        );
+                                      } else {
+                                        profile.updateUserProfile(
+                                          context: context,
+                                          filepath: _image!.path,
+                                          type: true,
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              profile.loader
+                  ? Positioned(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white60,
+                        child: Center(child: Loader()),
+                      ),
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
-          profile.loader
-              ? Positioned(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white60,
-                    child: Center(
-                      child: Loader(),
-                    ),
-                  ),
-                )
-              : SizedBox.shrink(),
-        ])),
+        ),
       ),
     );
   }

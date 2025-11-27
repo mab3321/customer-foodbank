@@ -9,13 +9,15 @@ import '/services/server.dart';
 class OrderDetailsController extends GetxController {
   Server server = Server();
   var orderId;
-  int? statusCode, deliveryBoyId;
+  int? statusCode, deliveryBoyId, expectedTimeSeconds;
+  Timer? timerData;
   String? total,
       orderCode,
       subTotal,
       deliveryCharge,
       statusName,
       createdTime,
+      expectedTime,
       restaurantName,
       restaurantImage,
       restaurantAddress,
@@ -56,6 +58,12 @@ class OrderDetailsController extends GetxController {
         statusCode = orderDetailsData.data!.status!;
         statusName = orderDetailsData.data!.statusName!;
         createdTime = orderDetailsData.data!.createdAt!;
+        expectedTime = orderDetailsData.data!.expectedTime;
+        expectedTimeSeconds = orderDetailsData.data!.expectedTimeSeconds;
+        timerData = orderDetailsData.data!.timer;
+        print(
+          'Order Details: statusCode=$statusCode, expectedTimeSeconds=$expectedTimeSeconds, timerData=${timerData?.remainingTime}',
+        );
         restaurantName = orderDetailsData.data!.restaurant!.name!;
         restaurantImage = orderDetailsData.data!.restaurant!.image!;
         restaurantAddress = orderDetailsData.data!.restaurant!.address!;
@@ -78,9 +86,9 @@ class OrderDetailsController extends GetxController {
     Future.delayed(Duration(milliseconds: 10), () {
       update();
     });
-    server
-        .getRequest(endPoint: APIList.orderCancel! + id.toString())
-        .then((response) {
+    server.getRequest(endPoint: APIList.orderCancel! + id.toString()).then((
+      response,
+    ) {
       if (response != null && response.statusCode == 200) {
         onInit();
       }

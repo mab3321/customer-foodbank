@@ -18,19 +18,18 @@ class _DeliveryPickUpState extends State<DeliveryPickUp> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: ThemeColors.baseThemeColor,
-            )),
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back, color: ThemeColors.baseThemeColor),
+        ),
         title: Text(
           "DELIVERY_OR_PICKUP".tr,
           style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: FontSize.xLarge,
-              color: ThemeColors.baseThemeColor),
+            fontWeight: FontWeight.w900,
+            fontSize: FontSize.xLarge,
+            color: ThemeColors.baseThemeColor,
+          ),
         ),
         backgroundColor: Colors.white54,
         centerTitle: true,
@@ -85,8 +84,10 @@ class _DeliveryPickUpState extends State<DeliveryPickUp> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 5),
             child: ListTile(
-              leading: Image.asset("assets/images/Delivery_address.png",
-                  fit: BoxFit.fill),
+              leading: Image.asset(
+                "assets/images/Delivery_address.png",
+                fit: BoxFit.fill,
+              ),
               title: Text("DELIVERY_ADDRESS".tr),
               subtitle: Text("CONFIRM_YOUR_DELIVERY_ADDRESS".tr),
             ),
@@ -103,13 +104,11 @@ class _DeliveryPickUpState extends State<DeliveryPickUp> {
                   onPressed: () {},
                 ),
                 leading: Image.asset("assets/images/delivery_Address.png"),
-                title: Text("Mirpur-2,Dhaka-1216"),
+                title: Text("Gulberg III, Lahore"),
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             height: 60,
@@ -127,8 +126,10 @@ class _DeliveryPickUpState extends State<DeliveryPickUp> {
               },
               child: Text(
                 'PLACE_ORDER'.tr,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

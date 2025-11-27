@@ -38,18 +38,22 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    searchController.text = '14 Rd No 1, Dhaka1216, Bangladesh';
+    searchController.text = 'Gulberg III, Lahore, Pakistan';
     _lastMapPosition = widget.initialPosition;
-    _markers.add(Marker(
+    _markers.add(
+      Marker(
         markerId: MarkerId(151.toString()),
         draggable: true,
         position: _lastMapPosition,
         infoWindow: InfoWindow(
-            title: "YOU_ARE_HERE".tr,
-            snippet: "THIS_IS_A_CURRENT_LOCATION_SNIPPET".tr,
-            onTap: () {}),
+          title: "YOU_ARE_HERE".tr,
+          snippet: "THIS_IS_A_CURRENT_LOCATION_SNIPPET".tr,
+          onTap: () {},
+        ),
         onTap: () {},
-        icon: BitmapDescriptor.defaultMarker));
+        icon: BitmapDescriptor.defaultMarker,
+      ),
+    );
   }
 
   @override
@@ -64,10 +68,11 @@ class _MapScreenState extends State<MapScreen> {
           padding: EdgeInsets.only(left: 8),
           child: Builder(
             builder: (context) => IconButton(
-                icon: Icon(Icons.arrow_back, color: Color(0Xffb8175b)),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
+              icon: Icon(Icons.arrow_back, color: Color(0Xffb8175b)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
         ),
         titleSpacing: 0,
@@ -75,56 +80,61 @@ class _MapScreenState extends State<MapScreen> {
         title: Container(
           padding: EdgeInsets.only(left: width * 0.03, right: width * 0.01),
           margin: EdgeInsets.only(
-              right: width * 0.02, top: height * 0.01, bottom: height * 0.01),
+            right: width * 0.02,
+            top: height * 0.01,
+            bottom: height * 0.01,
+          ),
           decoration: BoxDecoration(
-              color: Color(0xfffaf6f7), borderRadius: BorderRadius.circular(9)),
+            color: Color(0xfffaf6f7),
+            borderRadius: BorderRadius.circular(9),
+          ),
           width: width * 0.98,
-          child: Row(children: [
-            Expanded(
-              child: Container(
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(
-                      fontSize: width * 0.04,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(
+                        fontSize: width * 0.04,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                      hintText: 'SEARCH.'.tr,
+                      border: InputBorder.none,
                     ),
-                    hintText: 'SEARCH.'.tr,
-                    border: InputBorder.none,
                   ),
                 ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  searchController.text = '';
-                });
-              },
-              child: Container(
-                padding:
-                    EdgeInsets.only(left: width * 0.02, right: width * 0.009),
-                child: Icon(
-                  Icons.highlight_off,
-                  color: Color(0Xffb8175b),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    searchController.text = '';
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.only(
+                    left: width * 0.02,
+                    right: width * 0.009,
+                  ),
+                  child: Icon(Icons.highlight_off, color: Color(0Xffb8175b)),
                 ),
               ),
-            ),
-            InkWell(
-              onTap: () {
-                _currentLocation();
-              },
-              child: Container(
-                padding:
-                    EdgeInsets.only(left: width * 0.01, right: width * 0.009),
-                child: Icon(
-                  Icons.my_location,
-                  color: Color(0Xffb8175b),
+              InkWell(
+                onTap: () {
+                  _currentLocation();
+                },
+                child: Container(
+                  padding: EdgeInsets.only(
+                    left: width * 0.01,
+                    right: width * 0.009,
+                  ),
+                  child: Icon(Icons.my_location, color: Color(0Xffb8175b)),
                 ),
               ),
-            )
-          ]),
+            ],
+          ),
         ),
       ),
       body: SafeArea(
@@ -165,8 +175,9 @@ class _MapScreenState extends State<MapScreen> {
                     height: height * 0.06,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Color(0Xffb8175b),
-                        borderRadius: BorderRadiusDirectional.circular(8)),
+                      color: Color(0Xffb8175b),
+                      borderRadius: BorderRadiusDirectional.circular(8),
+                    ),
                     child: Center(
                       child: Text(
                         "SEARCH".tr,
@@ -189,12 +200,16 @@ class _MapScreenState extends State<MapScreen> {
 
   void _currentLocation() async {
     final GoogleMapController controller = await controller1.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(
-        target: LatLng(
-            widget.initialPosition.latitude, widget.initialPosition.longitude),
-        zoom: 14.4746,
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(
+            widget.initialPosition.latitude,
+            widget.initialPosition.longitude,
+          ),
+          zoom: 14.4746,
+        ),
       ),
-    ));
+    );
   }
 }
