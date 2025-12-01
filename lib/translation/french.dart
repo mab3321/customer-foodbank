@@ -67,6 +67,8 @@ Map<String, String> french = {
   'REVIEWS': 'avis',
   'SUB_TOTAL': 'Sous-total',
   'DISCOUNT': 'Remise',
+  'TAX': 'Taxe',
+  'SERVICE_FEE': 'Frais de service',
   'TOTAL': 'Total',
   'CHECKOUT_PAGE': 'Page de paiement',
   'DELIVERY_ADDRESS': 'Adresse de livraison',

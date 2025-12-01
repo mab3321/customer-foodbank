@@ -1,404 +1,327 @@
-// =====================================
-// MOBILE APP TIMER IMPLEMENTATION GUIDE
-// =====================================
+# Flutter Tax Integration Documentation
 
-// ===== React Native Implementation =====
+## Overview
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+The FoodBank backend now supports restaurant-specific tax calculations. This document provides guidance for the Flutter app team on how to properly display tax information to customers.
 
-const OrderTimer = ({ order }) => {
-const [timeLeft, setTimeLeft] = useState(0);
-const [progress, setProgress] = useState(0);
-const [isOverdue, setIsOverdue] = useState(false);
-const progressAnim = new Animated.Value(0);
+## Backend Tax Implementation
 
-useEffect(() => {
-if (!order.timer || !order.timer.process_started_at) return;
+### Tax Fields Available
 
-    const interval = setInterval(() => {
-      const now = new Date();
-      const startTime = new Date(order.timer.process_started_at);
-      const elapsedSeconds = Math.floor((now - startTime) / 1000);
-      const estimatedSeconds = order.timer.estimated_wait_time * 60;
-      const remainingSeconds = Math.max(0, estimatedSeconds - elapsedSeconds);
+The following tax-related fields are available in the Order model:
 
-      const progressPercentage = Math.min(100, (elapsedSeconds / estimatedSeconds) * 100);
-
-      setTimeLeft(remainingSeconds);
-      setProgress(progressPercentage);
-      setIsOverdue(remainingSeconds <= 0);
-
-      // Animate progress bar
-      Animated.timing(progressAnim, {
-        toValue: progressPercentage,
-        duration: 500,
-        useNativeDriver: false,
-      }).start();
-
-    }, 1000);
-
-    return () => clearInterval(interval);
-
-}, [order.timer]);
-
-const formatTime = (seconds) => {
-if (seconds <= 0) {
-const overdue = Math.abs(seconds);
-const mins = Math.floor(overdue / 60);
-const secs = overdue % 60;
-return `-${mins}:${secs.toString().padStart(2, '0')}`;
-}
-const mins = Math.floor(seconds / 60);
-const secs = seconds % 60;
-return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
-
-if (!order.timer) return null;
-
-return (
-<View style={styles.timerContainer}>
-<Text style={styles.title}>🍽️ Your order is being prepared</Text>
-
-      <View style={styles.timeDisplay}>
-        <Text style={[
-          styles.timeText,
-          isOverdue ? styles.overdue : styles.normal
-        ]}>
-          {formatTime(timeLeft)}
-        </Text>
-        <Text style={styles.subtitle}>
-          {isOverdue ? 'Running late' : 'Estimated time remaining'}
-        </Text>
-      </View>
-
-      <View style={styles.progressContainer}>
-        <Text style={styles.progressLabel}>Progress</Text>
-        <View style={styles.progressBar}>
-          <Animated.View
-            style={[
-              styles.progressFill,
-              {
-                width: progressAnim.interpolate({
-                  inputRange: [0, 100],
-                  outputRange: ['0%', '100%']
-                }),
-                backgroundColor: isOverdue ? '#EF4444' : progress > 80 ? '#F59E0B' : '#10B981'
-              }
-            ]}
-          />
-        </View>
-        <Text style={styles.progressText}>{Math.round(progress)}%</Text>
-      </View>
-
-      <View style={styles.infoRow}>
-        <Text style={styles.infoText}>
-          Estimated: {order.timer.estimated_wait_time} min
-        </Text>
-        {isOverdue && (
-          <Text style={styles.overdueText}>
-            ⚠️ Order is running late
-          </Text>
-        )}
-      </View>
-    </View>
-
-);
-};
-
-const styles = StyleSheet.create({
-timerContainer: {
-backgroundColor: '#F3F4F6',
-padding: 16,
-borderRadius: 12,
-margin: 16,
-},
-title: {
-fontSize: 16,
-fontWeight: '600',
-textAlign: 'center',
-marginBottom: 16,
-},
-timeDisplay: {
-alignItems: 'center',
-marginBottom: 16,
-},
-timeText: {
-fontSize: 32,
-fontWeight: 'bold',
-fontFamily: 'monospace',
-},
-normal: {
-color: '#10B981',
-},
-overdue: {
-color: '#EF4444',
-},
-subtitle: {
-fontSize: 14,
-color: '#6B7280',
-marginTop: 4,
-},
-progressContainer: {
-marginBottom: 16,
-},
-progressLabel: {
-fontSize: 12,
-color: '#6B7280',
-marginBottom: 4,
-},
-progressBar: {
-height: 8,
-backgroundColor: '#E5E7EB',
-borderRadius: 4,
-overflow: 'hidden',
-},
-progressFill: {
-height: '100%',
-borderRadius: 4,
-},
-progressText: {
-fontSize: 12,
-textAlign: 'right',
-marginTop: 4,
-color: '#6B7280',
-},
-infoRow: {
-flexDirection: 'row',
-justifyContent: 'space-between',
-alignItems: 'center',
-},
-infoText: {
-fontSize: 12,
-color: '#6B7280',
-},
-overdueText: {
-fontSize: 12,
-color: '#EF4444',
-fontWeight: '600',
-},
-});
-
-export default OrderTimer;
-
-// ===== Flutter Implementation =====
-
-/\*
-import 'dart:async';
-import 'package:flutter/material.dart';
-
-class OrderTimer extends StatefulWidget {
-final Map<String, dynamic> order;
-
-OrderTimer({required this.order});
-
-@override
-\_OrderTimerState createState() => \_OrderTimerState();
-}
-
-class \_OrderTimerState extends State<OrderTimer>
-with TickerProviderStateMixin {
-
-Timer? \_timer;
-int \_timeLeft = 0;
-double \_progress = 0.0;
-bool \_isOverdue = false;
-late AnimationController \_progressController;
-
-@override
-void initState() {
-super.initState();
-\_progressController = AnimationController(
-duration: Duration(milliseconds: 500),
-vsync: this,
-);
-
-    if (widget.order['timer'] != null &&
-        widget.order['timer']['process_started_at'] != null) {
-      _startTimer();
-    }
-
-}
-
-void \_startTimer() {
-\_timer = Timer.periodic(Duration(seconds: 1), (timer) {
-final now = DateTime.now();
-final startTime = DateTime.parse(widget.order['timer']['process_started_at']);
-final elapsedSeconds = now.difference(startTime).inSeconds;
-final estimatedSeconds = widget.order['timer']['estimated_wait_time'] \* 60;
-final remainingSeconds = (estimatedSeconds - elapsedSeconds).clamp(0, double.infinity).toInt();
-
-      final progressPercentage = (elapsedSeconds / estimatedSeconds * 100).clamp(0.0, 100.0);
-
-      setState(() {
-        _timeLeft = remainingSeconds;
-        _progress = progressPercentage / 100;
-        _isOverdue = remainingSeconds <= 0;
-      });
-
-      _progressController.animateTo(_progress);
-    });
-
-}
-
-String \_formatTime(int seconds) {
-if (seconds <= 0) {
-final overdue = seconds.abs();
-final mins = overdue ~/ 60;
-final secs = overdue % 60;
-return '-$mins:${secs.toString().padLeft(2, '0')}';
-}
-final mins = seconds ~/ 60;
-final secs = seconds % 60;
-return '$mins:${secs.toString().padLeft(2, '0')}';
-}
-
-@override
-Widget build(BuildContext context) {
-if (widget.order['timer'] == null) return Container();
-
-    return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Text(
-            '🍽️ Your order is being prepared',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 16),
-
-          Column(
-            children: [
-              Text(
-                _formatTime(_timeLeft),
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'monospace',
-                  color: _isOverdue ? Colors.red : Colors.green,
-                ),
-              ),
-              Text(
-                _isOverdue ? 'Running late' : 'Estimated time remaining',
-                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Progress', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-              SizedBox(height: 4),
-              LinearProgressIndicator(
-                value: _progress,
-                backgroundColor: Colors.grey[300],
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  _isOverdue ? Colors.red : _progress > 0.8 ? Colors.orange : Colors.green,
-                ),
-              ),
-              SizedBox(height: 4),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '${(_progress * 100).round()}%',
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Estimated: ${widget.order['timer']['estimated_wait_time']} min',
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-              if (_isOverdue)
-                Text(
-                  '⚠️ Order is running late',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.red,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
-
-}
-
-@override
-void dispose() {
-\_timer?.cancel();
-\_progressController.dispose();
-super.dispose();
-}
-}
-\*/
-
-// ===== API Integration Example =====
-
-// Your API now returns this structure for orders:
-/_
+```json
 {
-"status": 200,
-"data": [
+  "tax_rate": 17.0, // Tax rate as decimal (e.g., 17.00 for 17%)
+  "tax_amount": 1.7, // Calculated tax amount in currency
+  "formatted_tax_rate": "17.00%", // Human-readable tax rate with % symbol
+  "formatted_tax_amount": "$1.70" // Human-readable tax amount with currency
+}
+```
+
+### Order Calculation Structure
+
+```json
 {
-"id": 123,
-"order_code": "ORD-001234",
-"status": 15, // PROCESS status
-"status_name": "Process",
-"timer": {
-"process_started_at": "2025-11-26T14:43:00.000000Z",
-"estimated_wait_time": 15,
-"remaining_time": 12,
-"elapsed_time": 3,
-"is_overdue": false,
-"progress_percentage": 20,
-"formatted_remaining_time": "12:00"
-},
-// ... other order fields
+  "sub_total": 10.0, // Items total before tax and delivery
+  "delivery_charge": 0.0, // Delivery fee (0 for pickup orders)
+  "tax_rate": 17.0, // Restaurant's tax rate percentage
+  "tax_amount": 1.7, // Tax calculated on subtotal
+  "total": 11.7 // Final total (sub_total + delivery_charge + tax_amount)
 }
-]
+```
+
+## Required API Updates
+
+### 1. Update OrderApiResource
+
+The API resource needs to include tax fields. Add these to `app/Http/Resources/v1/OrderApiResource.php`:
+
+```php
+'tax_rate' => $this->tax_rate,
+'tax_amount' => $this->tax_amount,
+'formatted_tax_rate' => $this->formatted_tax_rate,
+'formatted_tax_amount' => $this->formatted_tax_amount,
+```
+
+### 2. Cart/Checkout API Response
+
+Ensure cart calculations return tax information:
+
+```json
+{
+  "subtotal": 10.0,
+  "delivery_charge": 0.0,
+  "tax_rate": 17.0,
+  "tax_amount": 1.7,
+  "total": 11.7,
+  "restaurant": {
+    "tax_rate": 17.0
+  }
 }
-_/
+```
 
-// ===== Key Features for Mobile App =====
+## Flutter Implementation Guidelines
 
-/\*
-✅ Real-time Countdown: Updates every second
-✅ Progress Bar: Visual progress indicator  
-✅ Overdue Detection: Red color when late
-✅ Smooth Animations: Progress bar animations
-✅ Status Messages: "Running late" vs "On time"
-✅ Milestone Notifications: Can add push notifications
-✅ Offline Handling: Can cache timer data
-✅ Battery Optimization: Reduce updates when app backgrounded
+### 1. Order Summary Display
 
-🔔 Push Notification Integration:
+Display tax breakdown in order summary screens:
 
-- Send notification when order is 90% complete
-- Send notification when order becomes overdue
-- Send notification when order is ready for pickup
+```dart
+// Order Summary Widget
+Column(
+  children: [
+    _buildSummaryRow('Subtotal', currencyFormat(order.subTotal)),
 
-📱 UI/UX Best Practices:
+    // Show delivery charge only for delivery orders
+    if (order.orderType == OrderType.delivery && order.deliveryCharge > 0)
+      _buildSummaryRow('Delivery Charge', currencyFormat(order.deliveryCharge)),
 
-- Use monospace font for timer display
-- Smooth color transitions (Green → Orange → Red)
-- Clear visual hierarchy
-- Accessibility support
-- Responsive design for different screen sizes
-  \*/
+    // Show tax only when applicable
+    if (order.taxAmount > 0)
+      _buildSummaryRow('Tax (${order.formattedTaxRate})', currencyFormat(order.taxAmount)),
+
+    Divider(),
+    _buildSummaryRow('Total', currencyFormat(order.total), isTotal: true),
+  ],
+)
+```
+
+### 2. Cart Screen
+
+Show real-time tax calculations in cart:
+
+```dart
+// Cart Total Section
+Card(
+  child: Padding(
+    padding: EdgeInsets.all(16),
+    child: Column(
+      children: [
+        _summaryRow('Subtotal', cart.subtotal),
+
+        if (selectedOrderType == OrderType.delivery)
+          _summaryRow('Delivery', cart.deliveryCharge),
+
+        if (cart.restaurant.taxRate > 0)
+          _summaryRow('Tax (${cart.restaurant.taxRate}%)', cart.taxAmount),
+
+        Divider(thickness: 2),
+        _summaryRow('Total', cart.total, bold: true),
+      ],
+    ),
+  ),
+)
+```
+
+### 3. Order History
+
+Display tax in order history items:
+
+```dart
+// Order History Card
+ListTile(
+  title: Text('Order #${order.orderCode}'),
+  subtitle: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('${order.restaurant.name}'),
+      if (order.taxAmount > 0)
+        Text('Includes ${order.formattedTaxRate} tax',
+             style: TextStyle(fontSize: 12, color: Colors.grey)),
+    ],
+  ),
+  trailing: Text(currencyFormat(order.total)),
+)
+```
+
+### 4. Receipt/Invoice View
+
+Comprehensive breakdown for receipts:
+
+```dart
+// Receipt Widget
+Column(
+  children: [
+    // Order items list...
+
+    Divider(),
+
+    // Summary section
+    _receiptRow('Subtotal', order.subTotal),
+
+    if (order.deliveryCharge > 0)
+      _receiptRow('Delivery Charge', order.deliveryCharge),
+
+    if (order.taxAmount > 0)
+      _receiptRow('Tax (${order.formattedTaxRate})', order.taxAmount),
+
+    Divider(thickness: 2),
+    _receiptRow('Total', order.total, bold: true),
+  ],
+)
+```
+
+## Data Models
+
+### Order Model (Dart)
+
+```dart
+class Order {
+  final int id;
+  final String orderCode;
+  final double subTotal;
+  final double deliveryCharge;
+  final double taxRate;        // Add this
+  final double taxAmount;      // Add this
+  final double total;
+  final String formattedTaxRate;    // Add this (e.g., "17.00%")
+  final String formattedTaxAmount;  // Add this (e.g., "$1.70")
+
+  // ... other fields
+
+  Order.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        orderCode = json['order_code'],
+        subTotal = double.parse(json['sub_total'].toString()),
+        deliveryCharge = double.parse(json['delivery_charge'].toString()),
+        taxRate = double.parse(json['tax_rate']?.toString() ?? '0'),
+        taxAmount = double.parse(json['tax_amount']?.toString() ?? '0'),
+        total = double.parse(json['total'].toString()),
+        formattedTaxRate = json['formatted_tax_rate'] ?? '0%',
+        formattedTaxAmount = json['formatted_tax_amount'] ?? '\$0.00';
+}
+```
+
+### Restaurant Model (Dart)
+
+```dart
+class Restaurant {
+  final int id;
+  final String name;
+  final double taxRate;        // Add this
+  final String formattedTaxRate; // Add this
+
+  // ... other fields
+
+  Restaurant.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        taxRate = double.parse(json['tax_rate']?.toString() ?? '17.0'),
+        formattedTaxRate = json['formatted_tax_rate'] ?? '17.00%';
+}
+```
+
+## Tax Display Rules
+
+### When to Show Tax
+
+- **Always show** when `tax_amount > 0`
+- **Include tax rate** in parentheses: "Tax (17.00%)"
+- **Show as separate line item** before total
+
+### When NOT to Show Tax
+
+- When `tax_amount` is 0 or null
+- For tax-exempt restaurants (rare case)
+
+### Formatting Guidelines
+
+1. **Tax Rate**: Display with 2 decimal places and % symbol (e.g., "17.00%")
+2. **Tax Amount**: Use the same currency formatting as other amounts
+3. **Position**: Always between subtotal/delivery and total
+4. **Styling**: Use normal text weight (not bold) for tax line
+
+## Cart Calculations
+
+### Real-time Updates
+
+When cart contents change:
+
+1. Calculate subtotal from items
+2. Add delivery charge (if delivery order)
+3. Calculate tax on subtotal: `tax_amount = subtotal * (tax_rate / 100)`
+4. Calculate total: `total = subtotal + delivery_charge + tax_amount`
+
+### Example Calculation
+
+```dart
+double calculateTax(double subtotal, double taxRate) {
+  return subtotal * (taxRate / 100);
+}
+
+double calculateTotal(double subtotal, double deliveryCharge, double taxAmount) {
+  return subtotal + deliveryCharge + taxAmount;
+}
+```
+
+## Testing Scenarios
+
+### Test Cases
+
+1. **Pickup Order**: Subtotal + Tax (no delivery charge)
+2. **Delivery Order**: Subtotal + Delivery + Tax
+3. **Zero Tax**: Restaurant with 0% tax rate
+4. **Different Tax Rates**: Restaurants with 5%, 10%, 17%, 20% tax rates
+
+### Sample Data
+
+```json
+// Pickup Order with Tax
+{
+  "sub_total": 25.00,
+  "delivery_charge": 0.00,
+  "tax_rate": 17.00,
+  "tax_amount": 4.25,
+  "total": 29.25
+}
+
+// Delivery Order with Tax
+{
+  "sub_total": 25.00,
+  "delivery_charge": 2.50,
+  "tax_rate": 17.00,
+  "tax_amount": 4.25,
+  "total": 31.75
+}
+```
+
+## Error Handling
+
+### Null Safety
+
+```dart
+// Safe tax display
+if (order.taxAmount != null && order.taxAmount > 0) {
+  _buildTaxRow(order.formattedTaxRate ?? '0%', order.taxAmount);
+}
+```
+
+### Fallback Values
+
+- Default tax rate: 17.00%
+- Default tax amount: 0.00
+- Handle missing formatted values gracefully
+
+## UI/UX Recommendations
+
+### Visual Hierarchy
+
+1. Subtotal (normal weight)
+2. Delivery charge (normal weight, if applicable)
+3. Tax with rate (normal weight, slightly muted color)
+4. **Total (bold, emphasized)**
+
+### Color Coding
+
+- Subtotal, delivery, tax: Default text color
+- Total: Primary/accent color, bold
+- Tax rate in parentheses: Slightly muted
+
+### Spacing
+
+- Add consistent spacing between line items
+- Use divider before total
+- Align amounts to the right
+
+This implementation ensures customers have full transparency about tax calculations while maintaining a clean, professional appearance in the app.

@@ -6,6 +6,7 @@ import '/models/cart_model.dart';
 import 'package:get/get.dart';
 
 import 'address_controller.dart';
+import 'checkout_controller.dart';
 
 class CartController extends GetxController {
   List<OrderMenuItem> cart = [];
@@ -20,6 +21,9 @@ class CartController extends GetxController {
   double long = 0.0;
   String restaurantID = '';
   double kilometer = 0.0;
+  double? restaurantTaxRate;
+  double? restaurantServiceFeeRate;
+  String? formattedRestaurantServiceFeeRate;
   int get total => cart.length;
   double? get charge => deliveryCharge;
   String get restaurantId => restaurantID;
@@ -41,14 +45,24 @@ class CartController extends GetxController {
     long = double.parse(Get.find<AddressController>().addressLat);
   }
 
-  void addProduct(menuItem, menuItemId, menuItemPrice, instructions, qunty,
-      restaurantid, deliverycharge, selecteOptions, selectVaration) {
+  void addProduct(
+    menuItem,
+    menuItemId,
+    menuItemPrice,
+    instructions,
+    qunty,
+    restaurantid,
+    deliverycharge,
+    selecteOptions,
+    selectVaration,
+  ) {
     restaurantID = restaurantid.toString();
     int index = cart.indexWhere((i) => i.id == menuItemId);
     if (index != -1)
       updateProduct(menuItemId, menuItemPrice, (cart[index].qty! + qunty));
     else {
-      cart.add(OrderMenuItem(
+      cart.add(
+        OrderMenuItem(
           id: menuItemId,
           instructions: instructions.toString(),
           name: menuItem.menuItemName,
@@ -57,7 +71,9 @@ class CartController extends GetxController {
           qty: qunty,
           imgUrl: menuItem.menuItemImage,
           variationId: selectVaration.toString(),
-          options: selecteOptions));
+          options: selecteOptions,
+        ),
+      );
       calculateTotal();
       update();
     }
@@ -102,14 +118,19 @@ class CartController extends GetxController {
       totalQunty += f.qty!;
     });
     calculateDistance(
-        lat,
-        long,
-        double.parse(
-          Get.find<AddressController>().addressLat,
-        ),
-        double.parse(
-          Get.find<AddressController>().addressLong,
-        ));
+      lat,
+      long,
+      double.parse(Get.find<AddressController>().addressLat),
+      double.parse(Get.find<AddressController>().addressLong),
+    );
+    // Trigger tax recalculation when cart total changes
+    try {
+      if (Get.isRegistered<CheckoutController>()) {
+        Get.find<CheckoutController>().calculateTax();
+      }
+    } catch (e) {
+      // CheckoutController not initialized yet
+    }
     Future.delayed(Duration(milliseconds: 10), () {
       update();
     });
@@ -123,6 +144,15 @@ class CartController extends GetxController {
     pickupStatus = restaurantData.pickupStatus!;
     lat = double.parse(restaurantData.lat.toString());
     long = double.parse(restaurantData.long.toString());
+    // Capture tax rate from restaurant data if available
+    restaurantTaxRate = restaurantData.taxRate != null
+        ? double.parse(restaurantData.taxRate.toString())
+        : null;
+    // Capture service fee rate from restaurant data if available
+    restaurantServiceFeeRate = restaurantData.serviceFeeRate != null
+        ? double.parse(restaurantData.serviceFeeRate.toString())
+        : null;
+    formattedRestaurantServiceFeeRate = restaurantData.formattedServiceFeeRate;
     orderType();
     Future.delayed(Duration(milliseconds: 10), () {
       update();
@@ -149,7 +179,8 @@ class CartController extends GetxController {
 
   calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
-    var a = 0.5 -
+    var a =
+        0.5 -
         cos((lat2 - lat1) * p) / 2 +
         cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
     kilometer = 12742 * asin(sqrt(a));
@@ -161,8 +192,9 @@ class CartController extends GetxController {
     distanceDeliveryCharge = deliveryCharge;
     if (freeradius <= kilometer) {
       distanceDeliveryCharge += chargePerKilo * (kilometer - freeradius);
-      distanceDeliveryCharge =
-          double.parse(distanceDeliveryCharge.round().toString());
+      distanceDeliveryCharge = double.parse(
+        distanceDeliveryCharge.round().toString(),
+      );
     }
     update();
   }

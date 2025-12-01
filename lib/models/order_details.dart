@@ -39,6 +39,14 @@ class DataData {
     this.total,
     this.subTotal,
     this.deliveryCharge,
+    this.taxRate,
+    this.taxAmount,
+    this.formattedTaxRate,
+    this.formattedTaxAmount,
+    this.serviceFeeRate,
+    this.serviceFeeAmount,
+    this.formattedServiceFeeRate,
+    this.formattedServiceFeeAmount,
     this.platform,
     this.deviceId,
     this.ip,
@@ -74,6 +82,14 @@ class DataData {
   String? total;
   String? subTotal;
   String? deliveryCharge;
+  String? taxRate;
+  String? taxAmount;
+  String? formattedTaxRate;
+  String? formattedTaxAmount;
+  String? serviceFeeRate;
+  String? serviceFeeAmount;
+  String? formattedServiceFeeRate;
+  String? formattedServiceFeeAmount;
   dynamic platform;
   dynamic deviceId;
   dynamic ip;
@@ -109,6 +125,14 @@ class DataData {
     total: json["total"],
     subTotal: json["sub_total"],
     deliveryCharge: json["delivery_charge"],
+    taxRate: json["tax_rate"]?.toString(),
+    taxAmount: json["tax_amount"]?.toString(),
+    formattedTaxRate: json["formatted_tax_rate"],
+    formattedTaxAmount: json["formatted_tax_amount"],
+    serviceFeeRate: json["service_fee_rate"]?.toString(),
+    serviceFeeAmount: json["service_fee_amount"]?.toString(),
+    formattedServiceFeeRate: json["formatted_service_fee_rate"],
+    formattedServiceFeeAmount: json["formatted_service_fee_amount"],
     platform: json["platform"],
     deviceId: json["device_id"],
     ip: json["ip"],
@@ -147,6 +171,14 @@ class DataData {
     "total": total,
     "sub_total": subTotal,
     "delivery_charge": deliveryCharge,
+    "tax_rate": taxRate,
+    "tax_amount": taxAmount,
+    "formatted_tax_rate": formattedTaxRate,
+    "formatted_tax_amount": formattedTaxAmount,
+    "service_fee_rate": serviceFeeRate,
+    "service_fee_amount": serviceFeeAmount,
+    "formatted_service_fee_rate": formattedServiceFeeRate,
+    "formatted_service_fee_amount": formattedServiceFeeAmount,
     "platform": platform,
     "device_id": deviceId,
     "ip": ip,

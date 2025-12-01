@@ -222,6 +222,63 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ],
                 ),
               ),
+              // Tax section
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: Text(
+                        'TAX'.tr + ' (${checkout.getFormattedTaxRate()})',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        "${Get.find<GlobalController>().currency!}" +
+                            "${checkout.taxAmount.toStringAsFixed(2)}",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Service Fee section
+              GetBuilder<CheckoutController>(
+                init: CheckoutController(),
+                builder: (checkout) => checkout.serviceFeeAmount > 0
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: Text(
+                                'SERVICE_FEE'.tr +
+                                    ' (${checkout.getFormattedServiceFeeRate()})',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: Text(
+                                "${Get.find<GlobalController>().currency!}" +
+                                    "${checkout.serviceFeeAmount.toStringAsFixed(2)}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox.shrink(),
+              ),
               Divider(),
 
               Padding(
@@ -242,7 +299,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     Container(
                       child: Text(
                         "${Get.find<GlobalController>().currency!}" +
-                            "${(cert.totalCartValue - checkout.discount).toStringAsFixed(2)}",
+                            "${checkout.getTotalWithTaxAndServiceFee().toStringAsFixed(2)}",
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

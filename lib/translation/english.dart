@@ -65,6 +65,8 @@ Map<String, String> english = {
   'REVIEWS': 'reviews',
   'SUB_TOTAL': 'Sub Total',
   'DISCOUNT': 'Discount',
+  'TAX': 'Tax',
+  'SERVICE_FEE': 'Service Fee',
   'TOTAL': 'Total',
   'CHECKOUT_PAGE': 'Checkout Page',
   'DELIVERY_ADDRESS': 'Delivery address',

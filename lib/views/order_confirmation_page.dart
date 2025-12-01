@@ -9,13 +9,24 @@ import 'package:get/get.dart';
 
 class OrderConfirmation extends StatefulWidget {
   final int? orderId;
-  final String? totalAmount, deliveryCharge, subTotal, discount;
+  final String? totalAmount,
+      deliveryCharge,
+      subTotal,
+      discount,
+      taxAmount,
+      taxRate,
+      serviceFeeAmount,
+      serviceFeeRate;
   OrderConfirmation({
     required this.orderId,
     required this.discount,
     required this.totalAmount,
     required this.deliveryCharge,
     required this.subTotal,
+    this.taxAmount,
+    this.taxRate,
+    this.serviceFeeAmount,
+    this.serviceFeeRate,
   });
 
   @override
@@ -143,6 +154,58 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
             ],
           ),
         ),
+        // Tax section
+        if (widget.taxAmount != null && widget.taxAmount != "0")
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Text(
+                    'TAX'.tr +
+                        (widget.taxRate != null ? ' (${widget.taxRate})' : ''),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    widget.taxAmount!.startsWith('\$')
+                        ? widget.taxAmount!
+                        : "${Get.find<GlobalController>().currency!}${widget.taxAmount}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        // Service Fee section
+        if (widget.serviceFeeAmount != null && widget.serviceFeeAmount != "0")
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Text(
+                    'SERVICE_FEE'.tr +
+                        (widget.serviceFeeRate != null
+                            ? ' (${widget.serviceFeeRate})'
+                            : ''),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    widget.serviceFeeAmount!.startsWith('\$')
+                        ? widget.serviceFeeAmount!
+                        : "${Get.find<GlobalController>().currency!}${widget.serviceFeeAmount}",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
         //SizedBox(height: 5,),
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),

@@ -74,9 +74,6 @@ key/
 *.config.dart
 
 # Environment files
-.env
-.env.local
-.env.production
 
 # Windows specific
 *.exe
@@ -91,3 +88,5 @@ key/
 
 web/
 windows/
+config.bat
+node_modules

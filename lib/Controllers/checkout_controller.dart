@@ -20,6 +20,12 @@ class CheckoutController extends GetxController {
   double discount = 0;
   String discountID = '';
   bool checkoutLoader = true;
+  double taxRate = 0.0;
+  double taxAmount = 0;
+  String formattedTaxRate = '0%';
+  double serviceFeeRate = 0.0;
+  double serviceFeeAmount = 0;
+  String formattedServiceFeeRate = '0%';
   List<Map> items = [];
   List<Map> paymentOptions = [];
   String? name, email, username, phone, address, image, credit;
@@ -29,6 +35,8 @@ class CheckoutController extends GetxController {
   @override
   void onInit() {
     getUserProfile();
+    calculateTax(); // Calculate initial tax amount
+    calculateServiceFee(); // Calculate initial service fee amount
     super.onInit();
   }
 
@@ -36,6 +44,82 @@ class CheckoutController extends GetxController {
   void updatePhoneNumber(String phoneNumber) {
     phone = phoneNumber;
     update();
+  }
+
+  // Calculate tax amount based on cart total and restaurant tax rate from backend
+  void calculateTax() {
+    var cartController = Get.find<CartController>();
+
+    // Only calculate tax if we have a tax rate from the backend
+    if (cartController.restaurantTaxRate != null &&
+        cartController.restaurantTaxRate! > 0) {
+      taxRate =
+          cartController.restaurantTaxRate! /
+          100; // Convert percentage to decimal
+      formattedTaxRate = '${cartController.restaurantTaxRate!}%';
+
+      double cartTotal = cartController.totalCartValue;
+      double subtotalAfterDiscount = cartTotal - discount;
+      taxAmount = subtotalAfterDiscount * taxRate;
+    } else {
+      // No tax rate from backend, set to 0
+      taxRate = 0.0;
+      taxAmount = 0.0;
+      formattedTaxRate = '0%';
+    }
+    update();
+  }
+
+  // Calculate service fee amount based on cart total and restaurant service fee rate from backend
+  void calculateServiceFee() {
+    var cartController = Get.find<CartController>();
+
+    // Only calculate service fee if we have a service fee rate from the backend
+    if (cartController.restaurantServiceFeeRate != null &&
+        cartController.restaurantServiceFeeRate! > 0) {
+      serviceFeeRate =
+          cartController.restaurantServiceFeeRate! /
+          100; // Convert percentage to decimal
+      formattedServiceFeeRate =
+          cartController.formattedRestaurantServiceFeeRate ??
+          '${cartController.restaurantServiceFeeRate!}%';
+
+      double cartTotal = cartController.totalCartValue;
+      double subtotalAfterDiscount = cartTotal - discount;
+      serviceFeeAmount = subtotalAfterDiscount * serviceFeeRate;
+    } else {
+      // No service fee rate from backend, set to 0
+      serviceFeeRate = 0.0;
+      serviceFeeAmount = 0.0;
+      formattedServiceFeeRate = '0%';
+    }
+    update();
+  }
+
+  // Get formatted tax rate for display
+  String getFormattedTaxRate() {
+    return formattedTaxRate;
+  }
+
+  // Get formatted service fee rate for display
+  String getFormattedServiceFeeRate() {
+    return formattedServiceFeeRate;
+  }
+
+  // Get total with tax and service fee
+  double getTotalWithTaxAndServiceFee() {
+    return Get.find<CartController>().totalCartValue -
+        discount +
+        taxAmount +
+        serviceFeeAmount;
+  }
+
+  // Get total with tax (keeping for backward compatibility)
+  double getTotalWithTax() {
+    return Get.find<CartController>().totalCartValue -
+        discount +
+        taxAmount +
+        serviceFeeAmount;
   }
 
   getUserProfile() {
@@ -121,6 +205,13 @@ class CheckoutController extends GetxController {
               subTotal: Get.find<CartController>().totalCartValue.toString(),
               deliveryCharge: '0',
               discount: Get.find<CheckoutController>().discount.toString(),
+              taxAmount: Get.find<CheckoutController>().taxAmount
+                  .toStringAsFixed(2),
+              taxRate: Get.find<CheckoutController>().getFormattedTaxRate(),
+              serviceFeeAmount: Get.find<CheckoutController>().serviceFeeAmount
+                  .toStringAsFixed(2),
+              serviceFeeRate: Get.find<CheckoutController>()
+                  .getFormattedServiceFeeRate(),
             ),
           );
         }
@@ -148,6 +239,14 @@ class CheckoutController extends GetxController {
                 totalAmount: amount,
                 subTotal: Get.find<CartController>().totalCartValue.toString(),
                 deliveryCharge: '0',
+                taxAmount: Get.find<CheckoutController>().taxAmount
+                    .toStringAsFixed(2),
+                taxRate: Get.find<CheckoutController>().getFormattedTaxRate(),
+                serviceFeeAmount: Get.find<CheckoutController>()
+                    .serviceFeeAmount
+                    .toStringAsFixed(2),
+                serviceFeeRate: Get.find<CheckoutController>()
+                    .getFormattedServiceFeeRate(),
                 discount: Get.find<CheckoutController>().discount.toString(),
               ),
             );
@@ -180,6 +279,9 @@ class CheckoutController extends GetxController {
                   )) /
               100;
         }
+        // Recalculate tax and service fee after discount is applied
+        calculateTax();
+        calculateServiceFee();
         update();
         Get.back();
       } else if (response != null && response.statusCode == 422) {

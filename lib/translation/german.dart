@@ -68,6 +68,8 @@ Map<String, String> german = {
   'REVIEWS': 'Bewertungen',
   'SUB_TOTAL': 'Zwischensumme',
   'DISCOUNT': 'Rabatt',
+  'TAX': 'Steuer',
+  'SERVICE_FEE': 'Servicegebühr',
   'TOTAL': 'Gesamt',
   'CHECKOUT_PAGE': 'Kassenseite',
   'DELIVERY_ADDRESS': 'Lieferadresse',

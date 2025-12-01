@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/Controllers/cart_controller.dart';
+import '/Controllers/checkout_controller.dart';
 import '/Controllers/global-controller.dart';
 import '/utils/theme_colors.dart';
 import '/views/checkout_page.dart';
@@ -16,6 +17,17 @@ class _CheckoutBottomBarState extends State<CheckoutBottomBar> {
   var mainHeight, mainWidth;
   var cartValue = 2;
   final cartController = Get.put(CartController());
+  final checkoutController = Get.put(CheckoutController());
+
+  @override
+  void initState() {
+    super.initState();
+    // Trigger tax calculation when cart loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkoutController.calculateTax();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     mainWidth = MediaQuery.of(context).size.width;
@@ -57,6 +69,57 @@ class _CheckoutBottomBarState extends State<CheckoutBottomBar> {
                 ],
               ),
             ),
+            // Tax section for cart
+            GetBuilder<CheckoutController>(
+              init: CheckoutController(),
+              builder: (checkout) => checkout.taxAmount > 0
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'TAX'.tr + ' (${checkout.getFormattedTaxRate()})',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "${Get.find<GlobalController>().currencyCode!}${checkout.taxAmount.toStringAsFixed(2)}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ),
+            // Service Fee section for cart
+            GetBuilder<CheckoutController>(
+              init: CheckoutController(),
+              builder: (checkout) => checkout.serviceFeeAmount > 0
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'SERVICE_FEE'.tr +
+                                ' (${checkout.getFormattedServiceFeeRate()})',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "${Get.find<GlobalController>().currencyCode!}${checkout.serviceFeeAmount.toStringAsFixed(2)}",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ),
             //SizedBox(height: 5,),
             Padding(
               padding: const EdgeInsets.only(bottom: 4.0),
@@ -67,11 +130,14 @@ class _CheckoutBottomBarState extends State<CheckoutBottomBar> {
                     'TOTAL'.tr,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    cert.cart.length == 0
-                        ? "${Get.find<GlobalController>().currencyCode!}0.0"
-                        : "${Get.find<GlobalController>().currencyCode!}${cert.totalCartValue.toStringAsFixed(2)}",
-                    style: TextStyle(fontSize: 16),
+                  GetBuilder<CheckoutController>(
+                    init: CheckoutController(),
+                    builder: (checkout) => Text(
+                      cert.cart.length == 0
+                          ? "${Get.find<GlobalController>().currencyCode!}0.0"
+                          : "${Get.find<GlobalController>().currencyCode!}${(cert.totalCartValue + checkout.taxAmount + checkout.serviceFeeAmount).toStringAsFixed(2)}",
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
                 ],
               ),

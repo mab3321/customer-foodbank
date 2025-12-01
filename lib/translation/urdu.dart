@@ -65,6 +65,8 @@ Map<String, String> urdu = {
   'REVIEWS': 'جائزے',
   'SUB_TOTAL': 'ذیلی کل',
   'DISCOUNT': 'رعایت',
+  'TAX': 'ٹیکس',
+  'SERVICE_FEE': 'سروس فیس',
   'TOTAL': 'کل',
   'CHECKOUT_PAGE': 'چیک آؤٹ صفحہ',
   'DELIVERY_ADDRESS': 'ڈیلیوری کا پتہ',

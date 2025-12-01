@@ -65,6 +65,8 @@ Map<String, String> arabic = {
   'REVIEWS': 'المراجعات',
   'SUB_TOTAL': 'المجموع الفرعي',
   'DISCOUNT': 'خصم',
+  'TAX': 'ضريبة',
+  'SERVICE_FEE': 'رسوم الخدمة',
   'TOTAL': 'المجموع',
   'CHECKOUT_PAGE': 'صفحة الدفع',
   'DELIVERY_ADDRESS': 'عنوان التوصيل',

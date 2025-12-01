@@ -159,6 +159,110 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                       ),
 
+                      // Tax section - show if tax amount exists and is not zero/null
+                      if ((orderDetails.taxAmount != null &&
+                              orderDetails.taxAmount != "0" &&
+                              orderDetails.taxAmount != "0.00") ||
+                          (orderDetails.formattedTaxAmount != null &&
+                              orderDetails.formattedTaxAmount != "0" &&
+                              orderDetails.formattedTaxAmount != "0.00"))
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  'TAX'.tr +
+                                      (orderDetails.formattedTaxRate != null &&
+                                              orderDetails.formattedTaxRate !=
+                                                  ""
+                                          ? ' (${orderDetails.formattedTaxRate})'
+                                          : orderDetails.taxRate != null &&
+                                                orderDetails.taxRate != ""
+                                          ? ' (${orderDetails.taxRate}%)'
+                                          : ''),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  (orderDetails.formattedTaxAmount != null &&
+                                          orderDetails.formattedTaxAmount !=
+                                              "0" &&
+                                          orderDetails.formattedTaxAmount !=
+                                              "0.00")
+                                      ? (orderDetails.formattedTaxAmount!
+                                                .startsWith('\$')
+                                            ? orderDetails.formattedTaxAmount!
+                                            : "${Get.find<GlobalController>().currency!}${orderDetails.formattedTaxAmount}")
+                                      : "${Get.find<GlobalController>().currency!}${orderDetails.taxAmount}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      // Service Fee section - show if service fee amount exists and is not zero/null
+                      if ((orderDetails.serviceFeeAmount != null &&
+                              orderDetails.serviceFeeAmount != "0" &&
+                              orderDetails.serviceFeeAmount != "0.00") ||
+                          (orderDetails.formattedServiceFeeAmount != null &&
+                              orderDetails.formattedServiceFeeAmount != "0" &&
+                              orderDetails.formattedServiceFeeAmount != "0.00"))
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  'SERVICE_FEE'.tr +
+                                      (orderDetails.formattedServiceFeeRate !=
+                                                  null &&
+                                              orderDetails
+                                                      .formattedServiceFeeRate !=
+                                                  ""
+                                          ? ' (${orderDetails.formattedServiceFeeRate})'
+                                          : orderDetails.serviceFeeRate !=
+                                                    null &&
+                                                orderDetails.serviceFeeRate !=
+                                                    ""
+                                          ? ' (${orderDetails.serviceFeeRate}%)'
+                                          : ''),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  (orderDetails.formattedServiceFeeAmount !=
+                                              null &&
+                                          orderDetails
+                                                  .formattedServiceFeeAmount !=
+                                              "0" &&
+                                          orderDetails
+                                                  .formattedServiceFeeAmount !=
+                                              "0.00")
+                                      ? (orderDetails.formattedServiceFeeAmount!
+                                                .startsWith('\$')
+                                            ? orderDetails
+                                                  .formattedServiceFeeAmount!
+                                            : "${Get.find<GlobalController>().currency!}${orderDetails.formattedServiceFeeAmount}")
+                                      : "${Get.find<GlobalController>().currency!}${orderDetails.serviceFeeAmount}",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
                       Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Row(

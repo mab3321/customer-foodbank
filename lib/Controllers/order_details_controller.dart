@@ -15,6 +15,14 @@ class OrderDetailsController extends GetxController {
       orderCode,
       subTotal,
       deliveryCharge,
+      taxRate,
+      taxAmount,
+      formattedTaxRate,
+      formattedTaxAmount,
+      serviceFeeRate,
+      serviceFeeAmount,
+      formattedServiceFeeRate,
+      formattedServiceFeeAmount,
       statusName,
       createdTime,
       expectedTime,
@@ -55,6 +63,23 @@ class OrderDetailsController extends GetxController {
         total = orderDetailsData.data!.total!;
         subTotal = orderDetailsData.data!.subTotal!;
         deliveryCharge = orderDetailsData.data!.deliveryCharge!;
+        taxRate = orderDetailsData.data!.taxRate;
+        taxAmount = orderDetailsData.data!.taxAmount;
+        formattedTaxRate = orderDetailsData.data!.formattedTaxRate;
+        formattedTaxAmount = orderDetailsData.data!.formattedTaxAmount;
+        serviceFeeRate = orderDetailsData.data!.serviceFeeRate;
+        serviceFeeAmount = orderDetailsData.data!.serviceFeeAmount;
+        formattedServiceFeeRate =
+            orderDetailsData.data!.formattedServiceFeeRate;
+        formattedServiceFeeAmount =
+            orderDetailsData.data!.formattedServiceFeeAmount;
+        print(
+          'Tax Debug: taxRate=$taxRate, taxAmount=$taxAmount, formattedTaxRate=$formattedTaxRate, formattedTaxAmount=$formattedTaxAmount',
+        );
+        print(
+          'Service Fee Debug: serviceFeeRate=$serviceFeeRate, serviceFeeAmount=$serviceFeeAmount, formattedServiceFeeRate=$formattedServiceFeeRate, formattedServiceFeeAmount=$formattedServiceFeeAmount',
+        );
+        print('Full API Response: ${json.encode(jsonResponse)}');
         statusCode = orderDetailsData.data!.status!;
         statusName = orderDetailsData.data!.statusName!;
         createdTime = orderDetailsData.data!.createdAt!;

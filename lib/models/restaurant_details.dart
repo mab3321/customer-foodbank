@@ -137,6 +137,9 @@ class Restaurant {
     this.deliveryCharge,
     this.freeDeliveryRadius,
     this.chargePerKilo,
+    this.taxRate,
+    this.serviceFeeRate,
+    this.formattedServiceFeeRate,
     this.lat,
     this.long,
     this.deliveryStatus,
@@ -161,6 +164,9 @@ class Restaurant {
   String? deliveryCharge;
   String? freeDeliveryRadius;
   String? chargePerKilo;
+  String? taxRate;
+  String? serviceFeeRate;
+  String? formattedServiceFeeRate;
   String? lat;
   String? long;
   int? deliveryStatus;
@@ -186,6 +192,9 @@ class Restaurant {
     deliveryCharge: json["delivery_charge"],
     freeDeliveryRadius: json["free_delivery_radius"],
     chargePerKilo: json["charge_per_kilo"],
+    taxRate: json["tax_rate"]?.toString(),
+    serviceFeeRate: json["service_fee_rate"]?.toString(),
+    formattedServiceFeeRate: json["formatted_service_fee_rate"],
     lat: json["lat"],
     long: json["long"],
     deliveryStatus: json["delivery_status"],
@@ -212,6 +221,9 @@ class Restaurant {
     map["delivery_charge"] = deliveryCharge;
     map["free_delivery_radius"] = freeDeliveryRadius;
     map["charge_per_kilo"] = chargePerKilo;
+    map["tax_rate"] = taxRate;
+    map["service_fee_rate"] = serviceFeeRate;
+    map["formatted_service_fee_rate"] = formattedServiceFeeRate;
     map["lat"] = lat;
     map["long"] = long;
     map["delivery_status"] = deliveryStatus;

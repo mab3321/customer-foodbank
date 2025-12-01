@@ -66,6 +66,8 @@ Map<String, String> bangla = {
   'REVIEWS': 'রিভিউ',
   'SUB_TOTAL': 'উপ-মোট',
   'DISCOUNT': 'ছাড়',
+  'TAX': 'কর',
+  'SERVICE_FEE': 'সেবা ফি',
   'TOTAL': 'মোট',
   'CHECKOUT_PAGE': 'চেকআউট পৃষ্ঠা',
   'DELIVERY_ADDRESS': 'ডেলিভারি ঠিকানা',
